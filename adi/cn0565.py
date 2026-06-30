@@ -118,4 +118,4 @@ class cn0565(ad5940, adg2128, context_manager):
         """electrode_count_available: type=np.array
             Supported Electrode Counts
         """
-        return np.array([8, 16, 32])
+        return np.array([8, 16, 24])

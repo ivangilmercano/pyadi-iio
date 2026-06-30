@@ -30,8 +30,8 @@ electrode_name = [
     "R1_C29_C33",  # Electrode 12
     "R3_C33_C37",  # Electrode 13
     "R5_C37_C39",  # Electrode 14
-    "R7_C39_C41",
-]  # Electrode 15
+    "R7_C39_C41", # Electrode 15
+]  
 
 
 def main():

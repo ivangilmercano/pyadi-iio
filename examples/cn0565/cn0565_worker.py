@@ -52,7 +52,7 @@ class CN0565_Worker(QThread):
         self.mesh_obj = []
         self.ds = []
         self.eit = None
-        self.electrode_count_available = np.ndarray([8, 16, 32])
+        self.electrode_count_available = np.ndarray([8, 16, 24])
         self.doneGetSupportedElectrodeCount.emit(self.electrode_count_available)
         print("Worker Created")
 
@@ -66,10 +66,11 @@ class CN0565_Worker(QThread):
         x, y = pts[:, 0], pts[:, 1]
 
         if self.reconstruction == "bp":
-            im = self.ax.tripcolor(pts[:, 0], pts[:, 1], tri, ds)
+            im = self.ax.tripcolor(pts[:, 0], pts[:, 1], tri, ds, vmin=0, vmax=10)
             self.ax.set_title(r"BP")
             self.ax.axis("equal")
-            self.figure.colorbar(im)
+            cbar = self.figure.colorbar(im)
+            cbar.set_ticks([0, 2, 4, 6, 8, 10])
 
         elif self.reconstruction == "jac":
             im = self.ax.tripcolor(x, y, tri, ds, shading="flat")
@@ -138,8 +139,13 @@ class CN0565_Worker(QThread):
 
             if self.set_baseline:
                 v0 = current_data
-                self.set_baseline = False
-                print("Done baseline!")
+                print("hi")
+                if np.any(np.isnan(v0)) or np.any(v0 == 0):
+                    print("Invalid baseline (NaN or all zeros). Retrying...")
+                    self.set_baseline = True  # Stay in baseline mode
+                else:
+                    self.set_baseline = False
+                    print("Done baseline!")
             else:
                 v1 = current_data
                 self.solver(v0, v1, protocol_obj)

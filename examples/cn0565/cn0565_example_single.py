@@ -29,7 +29,7 @@ electrode_name = [
     "R7_C39_C41",  # Electrode 15
 ]
 
-cn0565 = adi.cn0565(uri="serial:COM7,230400,8n1n")
+cn0565 = adi.cn0565(uri="serial:COM5,230400,8n1n")
 # reset the cross point switch
 
 amplitude = 100
